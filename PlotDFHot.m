@@ -1,3 +1,54 @@
+% Function PlotDFHot make plot of hot part of gas distibution function inside the plasma
+%   Input parameters:
+% np :
+%       type        : 1D double precision array
+%       units       : cm^(-3)
+%       description : plasma ion's density
+% Tp :
+%       type        : 1D double precision array
+%       units       : eV
+%       description : plasma ion's temperature
+% mp :
+%       type        : double precision
+%       units       : eV
+%       description : plasma ion's mass
+% T0 :
+%       type        : double precision
+%       units       : eV
+%       description : The half of the Maxwell DF temperature penetrate
+%                     inside the plasma column
+% Ncold :
+%       type        : 1D double precision array
+%       units       : cm^(-3)
+%       desciption  : Density of cold part of DF inside plasma
+% mg :
+%       type        : double precision
+%       units       : eV
+%       description : gas mass
+% diffCross :
+%       type        : double precision
+%       units       : cm^2
+%       description : gas-plasma ellastic collisions differential
+%                     cross section. Asumming that diff cross section is
+%                     constant!!!
+% r  :
+%       type        : 1D double precision array
+%       units       : cm
+%       description : space grid inside the plasma column. r(end) = a.
+% a  : 
+%       type        : double precision
+%       units       : cm
+%       description : Radius of plasma column
+% Nv :  type        : integer
+%       units       : unitless
+%       description : The number of points in the velocity grid
+%   Output parameters:
+% DF:
+%       type        : 4D double precision array
+%       units       : s^3 * cm^(-6)
+%       description : DF of the gas hot part. Size of [Nv x Nv x Nv x Nr],
+%                     where Nr - number of points in space grid
+% All input 1D arrays must be the same size!!!
 function DF = PlotDFHot(np, Tp, mp, T0, Ncold, mg, diffCross, r, a, Nv)
     eps = 3 / sqrt(2);
     alpha = mp / (mg + mp);
