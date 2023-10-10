@@ -1,8 +1,9 @@
 function DF = PlotDF_R_Phi(np, Tp, mp, n0, T0, mg, diffCross, r, a, Nv, vz)
+    c = 3 * 10^10;
     eps = 3 / sqrt(2);
     alpha = mp / (mg + mp);
-    VTp = sqrt(2 * Tp / mp);
-    VT0 = sqrt(2 * T0 / mg);
+    VTp = sqrt(2 * Tp / mp) * c;
+    VT0 = sqrt(2 * T0 / mg) * c;
     Q = 1 / (sqrt(pi) * 2 * alpha^3) * diffCross * np ./ VTp.^2;
     Ueps = eps * VT0 / (2 * alpha) ./ VTp;
     nu = 16 * pi * alpha^3 * Q .* VTp.^3 .* exp(-Ueps.^2);
