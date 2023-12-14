@@ -1,4 +1,4 @@
-function DF = PlotDF_R_Phi(np, Tp, mp, n0, T0, mg, diffCross, r, a, Nv, vz)
+function [DF, gridStep, Vr] = PlotDF_R_Phi(np, Tp, mp, n0, T0, mg, diffCross, r, a, Nv, vz)
     c = 3 * 10^10;
     eps = 3 / sqrt(2);
     alpha = mp / (mg + mp);
@@ -9,8 +9,10 @@ function DF = PlotDF_R_Phi(np, Tp, mp, n0, T0, mg, diffCross, r, a, Nv, vz)
     nu = 16 * pi * alpha^3 * Q .* VTp.^3 .* exp(-Ueps.^2);
     % Make U grid, Ur and Uphi variables for plot 
     UGrid = linspace(-eps,eps,Nv);
+    gridStep = (UGrid(2) - UGrid(1)) * VT0;
     y0 = ones(1,Nv);
     Ur = y0'*UGrid;
+    Vr = Ur * VT0;
     Uphi = UGrid'*y0;
     UOrtSqr = Ur.^2 + Uphi.^2;
     Uz = vz / VT0;
