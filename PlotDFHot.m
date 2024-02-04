@@ -49,7 +49,7 @@
 %       description : DF of the gas hot part. Size of [Nv x Nv x Nv x Nr],
 %                     where Nr - number of points in space grid
 % All input 1D arrays must be the same size!!!
-function [DF, gridStep, Vr, Vsqr] = PlotDFHot(np, Tp, mp, T0, Ncold, mg, diffCross, r, a, Nv)
+function [DF, gridStep, Vr, Vsqr] = PlotDFHot(np, Tp, mp, T0, Ncold, mg, diffCross, r, a, Nv, isPlot)
     c = 3 * 10^10;
     eps = 3 / sqrt(2);
     alpha = mp / (mg + mp);
@@ -106,27 +106,137 @@ function [DF, gridStep, Vr, Vsqr] = PlotDFHot(np, Tp, mp, T0, Ncold, mg, diffCro
         end
     end
     DF = DF / max(VTp);
+
+    plotBoard = 3.325 * VT0 / max(VTp);
+
+    if (isPlot)
+       tiledlayout(3,3);
+
+        ax1 = nexttile;
+        pcolor(UGrid, UGrid, DF(:,:,fix(Nv/2),1));
+        shading flat;
+        shading interp;
+        title(ax1,'f_g(r = 0)'); 
+        xlabel(ax1,'v_r/v_{Tp}'); 
+        ylabel(ax1,'v_\phi/v_{Tp}');
+        colormap('jet');
+        hold on
+        rectangle('Position',[-1,-1,2,2]*plotBoard,'Curvature',1,...
+            'LineWidth',2,'EdgeColor','w','FaceColor','None')
+        hold off
+        set(gca,'colorscale','log');
     
-    % n0 = 6e11;
-    % f0 = zeros(Nv, Nv, Nv);
-    % for i = 1:Nv
-    %     f0(:,:,i) = n0 / (sqrt(pi) * VT0)^3 * exp( - UOrtSqr * (max(VTp) / VT0)^2 - Uz(i)^2 * (max(VTp) / VT0)^2);
-    % end
-    % 
-    % dif = DF(:,:,:,end) - f0 .* boundaryFactor;
-    % pcolor(UGrid, UGrid, dif(:,:,fix(Nv/2)));
-    % shading flat;
-    % shading interp;
-
-    % for i = length(r):-10:1
-    %     figure(i);
-    %     pcolor(UGrid, UGrid, DF(:,:,fix(Nv/2),i));
-    %     shading flat;
-    %     shading interp;
-    %     title('F(r = a)'); 
-    %     xlabel('v_r/v_{Tp}'); 
-    %     ylabel('v_\phi/v_{Tp}');
-    % end
-
+        ax2 = nexttile;
+        pcolor(UGrid, UGrid, DF(:,:,fix(Nv/2),2));
+        shading flat;
+        shading interp;
+        title(ax2,'f_g(r = 0.125a)'); 
+        xlabel(ax2,'v_r/v_{Tp}'); 
+        ylabel(ax2,'v_\phi/v_{Tp}');
+        colormap('jet');
+        hold on
+        rectangle('Position',[-1,-1,2,2]*plotBoard,'Curvature',1,...
+            'LineWidth',2,'EdgeColor','w','FaceColor','None')
+        hold off
+        set(gca,'colorscale','log');
+    
+        ax3 = nexttile;
+        pcolor(UGrid, UGrid, DF(:,:,fix(Nv/2),3));
+        shading flat;
+        shading interp;
+        title(ax3,'f_g(r = 0.25a)'); 
+        xlabel(ax3,'v_r/v_{Tp}'); 
+        ylabel(ax3,'v_\phi/v_{Tp}');
+        colormap('jet');
+        hold on
+        rectangle('Position',[-1,-1,2,2]*plotBoard,'Curvature',1,...
+            'LineWidth',2,'EdgeColor','w','FaceColor','None')
+        hold off
+        set(gca,'colorscale','log');
+    
+        ax4 = nexttile;
+        pcolor(UGrid, UGrid, DF(:,:,fix(Nv/2),4));
+        shading flat;
+        shading interp;
+        title(ax4,'f_g(r = 0.375a)'); 
+        xlabel(ax4,'v_r/v_{Tp}'); 
+        ylabel(ax4,'v_\phi/v_{Tp}');
+        colormap('jet');
+        hold on
+        rectangle('Position',[-1,-1,2,2]*plotBoard,'Curvature',1,...
+            'LineWidth',2,'EdgeColor','w','FaceColor','None')
+        hold off
+        set(gca,'colorscale','log');
+    
+        ax5 = nexttile;
+        pcolor(UGrid, UGrid, DF(:,:,fix(Nv/2),5));
+        shading flat;
+        shading interp;
+        title(ax5,'f_g(r = 0.5a)'); 
+        xlabel(ax5,'v_r/v_{Tp}'); 
+        ylabel(ax5,'v_\phi/v_{Tp}');
+        colormap('jet');
+        hold on
+        rectangle('Position',[-1,-1,2,2]*plotBoard,'Curvature',1,...
+            'LineWidth',2,'EdgeColor','w','FaceColor','None')
+        hold off
+        set(gca,'colorscale','log');
+    
+        ax6 = nexttile;
+        pcolor(UGrid, UGrid, DF(:,:,fix(Nv/2),6));
+        shading flat;
+        shading interp;
+        title(ax6,'f_g(r = 0.625a)'); 
+        xlabel(ax6,'v_r/v_{Tp}'); 
+        ylabel(ax6,'v_\phi/v_{Tp}');
+        colormap('jet');
+        hold on
+        rectangle('Position',[-1,-1,2,2]*plotBoard,'Curvature',1,...
+            'LineWidth',2,'EdgeColor','w','FaceColor','None')
+        hold off
+        set(gca,'colorscale','log');
+    
+        ax7 = nexttile;
+        pcolor(UGrid, UGrid, DF(:,:,fix(Nv/2),7));
+        shading flat;
+        shading interp;
+        title(ax7,'f_g(r = 0.75a)'); 
+        xlabel('v_r/v_{Tp}'); 
+        ylabel('v_\phi/v_{Tp}');
+        colormap('jet');
+        hold on
+        rectangle('Position',[-1,-1,2,2]*plotBoard,'Curvature',1,...
+            'LineWidth',2,'EdgeColor','w','FaceColor','None')
+        hold off
+        set(gca,'colorscale','log');
+    
+        ax8 = nexttile;
+        pcolor(UGrid, UGrid, DF(:,:,fix(Nv/2),8));
+        shading flat;
+        shading interp;
+        title(ax8,'f_g(r = 0.875a)'); 
+        xlabel('v_r/v_{Tp}'); 
+        ylabel('v_\phi/v_{Tp}');
+        colormap('jet');
+        hold on
+        rectangle('Position',[-1,-1,2,2]*plotBoard,'Curvature',1,...
+            'LineWidth',2,'EdgeColor','w','FaceColor','None')
+        hold off
+        set(gca,'colorscale','log');
+    
+        ax9 = nexttile;
+        pcolor(UGrid, UGrid, DF(:,:,fix(Nv/2),9));
+        shading flat;
+        shading interp;
+        title(ax9,'f_g(r = a)'); 
+        xlabel('v_r/v_{Tp}'); 
+        ylabel('v_\phi/v_{Tp}');
+        colormap('jet');
+        hold on
+        rectangle('Position',[-1,-1,2,2]*plotBoard,'Curvature',1,...
+            'LineWidth',2,'EdgeColor','w','FaceColor','None')
+        hold off
+        set(gca,'colorscale','log'); 
+    end
 end
 

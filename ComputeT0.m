@@ -5,9 +5,9 @@ function F = ComputeT0(n0, Trange, Twall, Pwall, kappa, np, Tp, mp, mg, diffCros
     qr = zeros(1,length(Trange));
     Prr = zeros(1,length(Trange));
     for i = 1:length(Trange)
-        [DFCold, gridStepCold, VrCold, VsqrCold] = PlotDFCold(np, Tp, mp, n0, Trange(i), mg, diffCross, r, a, Nv);
+        [DFCold, gridStepCold, VrCold, VsqrCold] = PlotDFCold(np, Tp, mp, n0, Trange(i), mg, diffCross, r, a, Nv, false);
         nCold = Ncold(np, Tp, mp, n0, Trange(i), mg, diffCross, r, a, Nv);
-        [DFhot, gridStepHot, VrHot, VsqrHot] = PlotDFHot(np, Tp, mp, Trange(i), nCold, mg, diffCross, r, a, Nv);
+        [DFhot, gridStepHot, VrHot, VsqrHot] = PlotDFHot(np, Tp, mp, Trange(i), nCold, mg, diffCross, r, a, Nv, false);
         
         PrrHot = 0;
         qrHot = 0;

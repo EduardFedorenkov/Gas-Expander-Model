@@ -1,4 +1,4 @@
-function [DF, gridStep, Vr, Vsqr] = PlotDFCold(np, Tp, mp, n0, T0, mg, diffCross, r, a, Nv)
+function [DF, gridStep, Vr, Vsqr] = PlotDFCold(np, Tp, mp, n0, T0, mg, diffCross, r, a, Nv, isPlot)
     c = 3 * 10^10;
     eps = 3 / sqrt(2);
     alpha = mp / (mg + mp);
@@ -40,13 +40,79 @@ function [DF, gridStep, Vr, Vsqr] = PlotDFCold(np, Tp, mp, n0, T0, mg, diffCross
         DF(:,:,:,j) = DF(:,:,:,j) .* boundaryFactor;
     end
     
-    for i = 1:length(r)
-        figure(i);
-        pcolor(UGrid, UGrid, DF(:,:,fix(Nv/2),i));
+    if (isPlot)
+        tiledlayout(3,3);
+
+        ax1 = nexttile;
+        pcolor(UGrid, UGrid, DF(:,:,fix(Nv/2),1));
         shading flat;
         shading interp;
-        title('F_{r\theta}(r = a)'); 
+        title(ax1,'f_g(r = 0)'); 
         xlabel('v_r/v_{Tg}'); 
-        ylabel('v_\theta/v_{Tg}');
+        ylabel('v_\phi/v_{Tg}');
+    
+        ax2 = nexttile;
+        pcolor(UGrid, UGrid, DF(:,:,fix(Nv/2),2));
+        shading flat;
+        shading interp;
+        title(ax2,'f_g(r = 0.125a)'); 
+        xlabel(ax2,'v_r/v_{Tg}'); 
+        ylabel(ax2,'v_\phi/v_{Tg}');
+    
+        ax3 = nexttile;
+        pcolor(UGrid, UGrid, DF(:,:,fix(Nv/2),3));
+        shading flat;
+        shading interp;
+        title(ax3,'f_g(r = 0.25a)'); 
+        xlabel(ax3,'v_r/v_{Tg}'); 
+        ylabel(ax3,'v_\phi/v_{Tg}');
+    
+        ax4 = nexttile;
+        pcolor(UGrid, UGrid, DF(:,:,fix(Nv/2),4));
+        shading flat;
+        shading interp;
+        title(ax4,'f_g(r = 0.375a)'); 
+        xlabel(ax4,'v_r/v_{Tg}'); 
+        ylabel(ax4,'v_\phi/v_{Tg}');
+    
+        ax5 = nexttile;
+        pcolor(UGrid, UGrid, DF(:,:,fix(Nv/2),5));
+        shading flat;
+        shading interp;
+        title(ax5,'f_g(r = 0.5a)'); 
+        xlabel(ax5,'v_r/v_{Tg}'); 
+        ylabel(ax5,'v_\phi/v_{Tg}');
+    
+        ax6 = nexttile;
+        pcolor(UGrid, UGrid, DF(:,:,fix(Nv/2),6));
+        shading flat;
+        shading interp;
+        title(ax6,'f_g(r = 0.625a)'); 
+        xlabel(ax6,'v_r/v_{Tg}'); 
+        ylabel(ax6,'v_\phi/v_{Tg}');
+    
+        ax7 = nexttile;
+        pcolor(UGrid, UGrid, DF(:,:,fix(Nv/2),7));
+        shading flat;
+        shading interp;
+        title(ax7,'f_g(r = 0.75a)'); 
+        xlabel('v_r/v_{Tg}'); 
+        ylabel('v_\phi/v_{Tg}');
+    
+        ax8 = nexttile;
+        pcolor(UGrid, UGrid, DF(:,:,fix(Nv/2),8));
+        shading flat;
+        shading interp;
+        title(ax8,'f_g(r = 0.875a)'); 
+        xlabel('v_r/v_{Tg}'); 
+        ylabel('v_\phi/v_{Tg}');
+    
+        ax9 = nexttile;
+        pcolor(UGrid, UGrid, DF(:,:,fix(Nv/2),9));
+        shading flat;
+        shading interp;
+        title(ax9,'f_g(r = a)'); 
+        xlabel('v_r/v_{Tg}'); 
+        ylabel('v_\phi/v_{Tg}');
     end
 end
