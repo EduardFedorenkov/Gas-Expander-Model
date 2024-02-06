@@ -23,6 +23,10 @@ function nCold = Ncold(np, Tp, mp, n0, T0, mg, diffCross, r, a, Nv)
         factor(:,:,z) = (UOrtSqr + Uz(z)^2) <= eps^2;
         f0(:,:,z) = n0 / (sqrt(pi) * VT0)^3 * exp( - UOrtSqr - Uz(z)^2);
     end
+
+    if (length(nu) ~= length(r))
+        nu = nu(1) * ones(size(r));
+    end
     
     for i = 1:length(r)
         for z = 1 : Nv 
