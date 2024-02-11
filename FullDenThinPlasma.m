@@ -60,11 +60,13 @@ lgd.FontSize = 18;
 
 %% Compute n ouside the plasma
 
+positiveIdxStart = fix(Nv/2) + 1;
+
 PrrHot = 0;
 qrHot = 0;
 for i = 1:Nv
-    PrrHot = PrrHot + sum(DFhot(:,fix(Nv/2):Nv,i,end) .* VrHot(:,fix(Nv/2):Nv).^2, "all");
-    qrHot = qrHot + sum(DFhot(:,fix(Nv/2):Nv,i,end) .* VrHot(:,fix(Nv/2):Nv) .* VsqrHot(:,fix(Nv/2):Nv,i), "all");
+    PrrHot = PrrHot + sum(DFhot(:,positiveIdxStart:Nv,i,end) .* VrHot(:,positiveIdxStart:Nv).^2, "all");
+    qrHot = qrHot + sum(DFhot(:,positiveIdxStart:Nv,i,end) .* VrHot(:,positiveIdxStart:Nv) .* VsqrHot(:,positiveIdxStart:Nv,i), "all");
 end
 PrrHot = PrrHot * mg * eVtoErg / c^2 * gridStepHot^3;
 qrHot = qrHot * mg * eVtoErg / c^2 * 0.5 * gridStepHot^3;
@@ -72,8 +74,8 @@ qrHot = qrHot * mg * eVtoErg / c^2 * 0.5 * gridStepHot^3;
 PrrCold = 0;
 qrCold = 0;
 for i = 1:Nv
-    PrrCold = PrrCold + sum(DFCold(:,fix(Nv/2):Nv,i,end) .* VrCold(:,fix(Nv/2):Nv).^2, "all");
-    qrCold = qrCold + sum(DFCold(:,fix(Nv/2):Nv,i,end) .* VrCold(:,fix(Nv/2):Nv) .* VsqrCold(:,fix(Nv/2):Nv,i), "all");
+    PrrCold = PrrCold + sum(DFCold(:,positiveIdxStart:Nv,i,end) .* VrCold(:,positiveIdxStart:Nv).^2, "all");
+    qrCold = qrCold + sum(DFCold(:,positiveIdxStart:Nv,i,end) .* VrCold(:,positiveIdxStart:Nv) .* VsqrCold(:,positiveIdxStart:Nv,i), "all");
 end
 PrrCold = PrrCold * mg * eVtoErg / c^2 * gridStepCold^3;
 qrCold = qrCold * mg * eVtoErg / c^2 * 0.5 * gridStepCold^3;

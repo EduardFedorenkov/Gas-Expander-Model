@@ -35,7 +35,7 @@ function [DF, gridStep, Vr, Vsqr] = DFDensePlasma(np, Tp, mp, nEff, T0, mg, diff
     Vsqr = Vsqr * VTp^2;
 
     lenTypeOne = 2 * a * abs(Ur) ./ UOrtSqrt .* ((abs(Uphi) ./ UOrtSqrt) >= (1 - da / a));
-    lenTypeTwo = 2 * a * abs(Ur) ./ UOrtSqrt .* (1 - sqrt(1 - (UOrtSqr ./ Ur.^2) * (da/a)^2 * (2*a/da -1))) ...
+    lenTypeTwo = a * abs(Ur) ./ UOrtSqrt .* (1 - sqrt(1 - (UOrtSqr ./ Ur.^2) * (da/a)^2 * (2*a/da -1))) ...
         .* ((abs(Uphi) ./ UOrtSqrt) < (1 - da / a));
 
     for i = 1:Nv
@@ -44,9 +44,11 @@ function [DF, gridStep, Vr, Vsqr] = DFDensePlasma(np, Tp, mp, nEff, T0, mg, diff
     end
     P = P .* boundaryFactor;
 
+    positiveIdxStart = fix(Nv/2) + 1;
+
     for i = 1:Nv
-        DF(:,fix(Nv/2):Nv,i) = P(:,fix(Nv/2):Nv,i) ./ UOrtSqrt(:,fix(Nv/2):Nv) .* ...
-            ( lenTypeOne(:,fix(Nv/2):Nv) + lenTypeTwo(:,fix(Nv/2):Nv) );
+        DF(:,positiveIdxStart:Nv,i) = P(:,positiveIdxStart:Nv,i) ./ UOrtSqrt(:,positiveIdxStart:Nv) .* ...
+            ( lenTypeOne(:,positiveIdxStart:Nv) + lenTypeTwo(:,positiveIdxStart:Nv) );
     end
     DF = DF * (nEff / VTp);
 
@@ -54,14 +56,12 @@ function [DF, gridStep, Vr, Vsqr] = DFDensePlasma(np, Tp, mp, nEff, T0, mg, diff
         pcolor(UGrid, UGrid, DF(:,:,fix(Nv/2)));
         shading flat;
         shading interp;
-        title('f_g(r = 0)'); 
+        title('f_g(r = a)'); 
         xlabel('v_r/v_{Tp}'); 
         ylabel('v_\phi/v_{Tp}');
         colormap('jet');
         colorbar;
         set(gca,'ColorScale','log');
-        hold on
-        contour(UGrid, UGrid, DF(:,:,fix(Nv/2)), [1e-12 1e-9]);
         hold off
     end
 end

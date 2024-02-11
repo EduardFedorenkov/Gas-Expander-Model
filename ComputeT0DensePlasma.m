@@ -2,6 +2,9 @@ function F = ComputeT0DensePlasma(n0, Trange, Twall, Pwall, kappa, np, Tp, mp, m
     c = 3 * 10^10;
     eVtoErg = 1.6e-12;
     kB = 1.38e-16;
+
+    positiveIdxStart = fix(Nv/2) + 1;
+
     qr = zeros(1,length(Trange));
     Prr = zeros(1,length(Trange));
     for i = 1:length(Trange)
@@ -15,8 +18,8 @@ function F = ComputeT0DensePlasma(n0, Trange, Twall, Pwall, kappa, np, Tp, mp, m
         PrrHot = 0;
         qrHot = 0;
         for j = 1:Nv
-            PrrHot = PrrHot + sum(DFhot(:,fix(Nv/2):Nv,j,end) .* VrHot(:,fix(Nv/2):Nv).^2, "all");
-            qrHot = qrHot + sum(DFhot(:,fix(Nv/2):Nv,j,end) .* VrHot(:,fix(Nv/2):Nv) .* VsqrHot(:,fix(Nv/2):Nv,j), "all");
+            PrrHot = PrrHot + sum(DFhot(:,positiveIdxStart:Nv,j,end) .* VrHot(:,positiveIdxStart:Nv).^2, "all");
+            qrHot = qrHot + sum(DFhot(:,positiveIdxStart:Nv,j,end) .* VrHot(:,positiveIdxStart:Nv) .* VsqrHot(:,positiveIdxStart:Nv,j), "all");
         end
         Prr(i) = PrrHot * mg * eVtoErg / c^2 * gridStepHot^3;
         qr(i) = qrHot * mg * eVtoErg / c^2 * 0.5 * gridStepHot^3;

@@ -49,16 +49,18 @@ T0 = 0.466;
 nCold = Ncold(np, Tp, mp, 1, T0, mg, diffCross, r, a, Nv);
 [DFhot, gridStepHot, VrHot, VsqrHot] = PlotDFHot(np, Tp, mp, T0, nCold, mg, diffCross, r, a, Nv, false);
 
+positiveIdxStart = fix(Nv/2) + 1;
+
 % Compute Prr
 PrrHot = 0;
 for i = 1:Nv
-    PrrHot = PrrHot + sum(DFhot(:,fix(Nv/2):Nv,i,end) .* VrHot(:,fix(Nv/2):Nv).^2, "all");
+    PrrHot = PrrHot + sum(DFhot(:,positiveIdxStart:Nv,i,end) .* VrHot(:,positiveIdxStart:Nv).^2, "all");
 end
 PrrHot = PrrHot * mg * eVtoErg / c^2 * gridStepHot^3;
 
 PrrCold = 0;
 for i = 1:Nv
-    PrrCold = PrrCold + sum(DFCold(:,fix(Nv/2):Nv,i,end) .* VrCold(:,fix(Nv/2):Nv).^2, "all");
+    PrrCold = PrrCold + sum(DFCold(:,positiveIdxStart:Nv,i,end) .* VrCold(:,positiveIdxStart:Nv).^2, "all");
 end
 PrrCold = PrrCold * mg * eVtoErg / c^2 * gridStepCold^3;
 

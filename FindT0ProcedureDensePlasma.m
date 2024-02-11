@@ -47,9 +47,11 @@ nEff = 0.5 * 1 / (5 * beta) * (3/4) * ( sqrt(pi) * erf(localCoef * beta23) - ...
     2 * localCoef * beta23 * exp(-localCoef * beta23) );
 [DFhot, gridStepHot, VrHot, VsqrHot] = DFDensePlasma(np, Tp, mp, nEff, T0, mg, diffCross, a, Nv, false);
 
+positiveIdxStart = fix(Nv/2) + 1;
+
 PrrHot = 0;
 for i = 1:Nv
-    PrrHot = PrrHot + sum(DFhot(:,fix(Nv/2):Nv,i,end) .* VrHot(:,fix(Nv/2):Nv).^2, "all");
+    PrrHot = PrrHot + sum(DFhot(:,positiveIdxStart:Nv,i,end) .* VrHot(:,positiveIdxStart:Nv).^2, "all");
 end
 PrrHot = PrrHot * mg * eVtoErg / c^2 * gridStepHot^3;
 

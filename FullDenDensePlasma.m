@@ -12,7 +12,7 @@ R = linspace(a,b,35);       % Grin outside the plasma [cm]
 
 % Plasma parameters
 mp = m;                     % Ions mass [eV]
-np = 3e13;                  % Ions density [cm^{-3}]
+np = 1e14;                  % Ions density [cm^{-3}]
 Tp = 100;                   % Ions temperature [eV]
 
 % Gas parameters
@@ -40,7 +40,7 @@ beta = beta23^(3/2);
 localCoef = 5^(2/3);
 nEff = 0.5 * n0 / (5 * beta) * (3/4) * ( sqrt(pi) * erf(localCoef * beta23) - ...
     2 * localCoef * beta23 * exp(-localCoef * beta23) );
-[DFhot, gridStepHot, VrHot, VsqrHot] = DFDensePlasma(np, Tp, mp, nEff, T0, mg, diffCross, a, Nv, false);
+[DFhot, gridStepHot, VrHot, VsqrHot] = DFDensePlasma(np, Tp, mp, nEff, T0, mg, diffCross, a, Nv, true);
 
 %% Compute n_hot and n_cold
 % Description of second code block
@@ -57,11 +57,13 @@ lgd.FontSize = 18;
 
 %% Compute n ouside the plasma
 
+positiveIdxStart = fix(Nv/2) + 1;
+
 PrrHot = 0;
 qrHot = 0;
 for i = 1:Nv
-    PrrHot = PrrHot + sum(DFhot(:,fix(Nv/2):Nv,i,end) .* VrHot(:,fix(Nv/2):Nv).^2, "all");
-    qrHot = qrHot + sum(DFhot(:,fix(Nv/2):Nv,i,end) .* VrHot(:,fix(Nv/2):Nv) .* VsqrHot(:,fix(Nv/2):Nv,i), "all");
+    PrrHot = PrrHot + sum(DFhot(:,positiveIdxStart:Nv,i,end) .* VrHot(:,positiveIdxStart:Nv).^2, "all");
+    qrHot = qrHot + sum(DFhot(:,positiveIdxStart:Nv,i,end) .* VrHot(:,positiveIdxStart:Nv) .* VsqrHot(:,positiveIdxStart:Nv,i), "all");
 end
 PrrHot = PrrHot * mg * eVtoErg / c^2 * gridStepHot^3;
 qrHot = qrHot * mg * eVtoErg / c^2 * 0.5 * gridStepHot^3;
@@ -86,7 +88,7 @@ j_in = n0 * VT0 / (sqrt(pi) * 2);
 j_out = 0;
 
 for i = 1:Nv
-    j_out = j_out + sum(DFhot(:,fix(Nv/2):Nv,i,end) .* VrHot(:,fix(Nv/2):Nv), "all");
+    j_out = j_out + sum(DFhot(:,positiveIdxStart:Nv,i,end) .* VrHot(:,positiveIdxStart:Nv), "all");
 end
 j_out = j_out * gridStepHot^3;
 

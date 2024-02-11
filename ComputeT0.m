@@ -2,6 +2,9 @@ function F = ComputeT0(n0, Trange, Twall, Pwall, kappa, np, Tp, mp, mg, diffCros
     c = 3 * 10^10;
     eVtoErg = 1.6e-12;
     kB = 1.38e-16;
+
+    positiveIdxStart = fix(Nv/2) + 1;
+
     qr = zeros(1,length(Trange));
     Prr = zeros(1,length(Trange));
     for i = 1:length(Trange)
@@ -12,8 +15,8 @@ function F = ComputeT0(n0, Trange, Twall, Pwall, kappa, np, Tp, mp, mg, diffCros
         PrrHot = 0;
         qrHot = 0;
         for j = 1:Nv
-            PrrHot = PrrHot + sum(DFhot(:,fix(Nv/2):Nv,j,end) .* VrHot(:,fix(Nv/2):Nv).^2, "all");
-            qrHot = qrHot + sum(DFhot(:,fix(Nv/2):Nv,j,end) .* VrHot(:,fix(Nv/2):Nv) .* VsqrHot(:,fix(Nv/2):Nv,j), "all");
+            PrrHot = PrrHot + sum(DFhot(:,positiveIdxStart:Nv,j,end) .* VrHot(:,positiveIdxStart:Nv).^2, "all");
+            qrHot = qrHot + sum(DFhot(:,positiveIdxStart:Nv,j,end) .* VrHot(:,positiveIdxStart:Nv) .* VsqrHot(:,positiveIdxStart:Nv,j), "all");
         end
         PrrHot = PrrHot * mg * eVtoErg / c^2 * gridStepHot^3;
         qrHot = qrHot * mg * eVtoErg / c^2 * 0.5 * gridStepHot^3;
@@ -21,8 +24,8 @@ function F = ComputeT0(n0, Trange, Twall, Pwall, kappa, np, Tp, mp, mg, diffCros
         PrrCold = 0;
         qrCold = 0;
         for j = 1:Nv
-            PrrCold = PrrCold + sum(DFCold(:,fix(Nv/2):Nv,j,end) .* VrCold(:,fix(Nv/2):Nv).^2, "all");
-            qrCold = qrCold + sum(DFCold(:,fix(Nv/2):Nv,j,end) .* VrCold(:,fix(Nv/2):Nv) .* VsqrCold(:,fix(Nv/2):Nv,j), "all");
+            PrrCold = PrrCold + sum(DFCold(:,positiveIdxStart:Nv,j,end) .* VrCold(:,positiveIdxStart:Nv).^2, "all");
+            qrCold = qrCold + sum(DFCold(:,positiveIdxStart:Nv,j,end) .* VrCold(:,positiveIdxStart:Nv) .* VsqrCold(:,positiveIdxStart:Nv,j), "all");
         end
         PrrCold = PrrCold * mg * eVtoErg / c^2 * gridStepCold^3;
         qrCold = qrCold * mg * eVtoErg / c^2 * 0.5 * gridStepCold^3;
