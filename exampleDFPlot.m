@@ -2,17 +2,17 @@
 c = 3 * 10^10;
 eVtoErg = 1.6e-12;
 mp = 938.27 * 10^6;
-mg = 2 * mp;
+mg = mp;
 a = 50;
 b = 250;
-r = linspace(0,a,35);
-R = linspace(a,b,35);
+r = linspace(0,a,9);
+R = linspace(a,b,9);
 n0 = 5e+12;
 T0 = 0.5;
 Twall = 0.026;
-np = ones(size(r)) * 1e11;
+np = ones(size(r)) * 1e12;
 Tp = ones(size(r)) * 100;
-diffCross = 1e-16;
+diffCross = 7.3e-15;
 
 Nv = 300;
 

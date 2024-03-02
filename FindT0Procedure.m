@@ -15,18 +15,19 @@ R = linspace(a,b,35);       % Grin outside the plasma [cm]
 
 % Plasma parameters
 mp = m;                     % Ions mass [eV]
-np = ones(size(r)) * 1e11;  % Ions density [cm^{-3}]
+np = ones(size(r)) * 3e11;  % Ions density [cm^{-3}]
 Tp = ones(size(r)) * 100;   % Ions temperature [eV]
 
 % Gas parameters
 mg = 2 * m;                 % Gas mass [eV]
 
 % Diff cross section of elastic scatering
-diffCross = 1e-16;          % Gas-Ions elastic cross section [cm^2]             
+diffCross = (1 / (4 * pi)) * 3.6e-15;          % Gas-Ions elastic cross section [cm^2]             
 
 % Wall conditions
 Twall = 0.026;
-Pwall = 4.14;
+nwall = 1e14;
+Pwall = nwall * (Twall * eVtoErg);
 
 % Velocity grid parameters
 Nv = 300;
@@ -34,13 +35,13 @@ Nv = 300;
 %% Compute T0
 % Rough search on the graph. This part does't optimize well
 kappa = 5/9/diffCross/sqrt(mg * eVtoErg / c^2);
-Trange = [0.45 0.46 0.465 0.47 0.475 0.48 0.485 0.5];
+Trange = [1.1 1.15 1.2 1.25];
 
 % Need to find zero of function F with some accuracy!!!
 F = ComputeT0(1, Trange, Twall, Pwall, kappa, np, Tp, mp, mg, diffCross, r, a, b, Nv);
 
 % The T0 which was fuond!!!
-T0 = 0.466;
+T0 = 1.125;
 
 %% Compute n0
 % After we find T0. We can get n0
@@ -85,3 +86,11 @@ n0 = ComputeN0(Prr, Pwall, 1);
 %
 % T0 = 0.466        !!!
 % n0 = 4.1058e+12   !!!
+
+% H colisions
+% T0 = 1.86
+% n0 = 7.587e+11
+
+% H2 colisions
+% T0 = 1.125
+% n0 = 1.0976e+12

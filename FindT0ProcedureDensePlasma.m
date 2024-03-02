@@ -7,8 +7,8 @@ m = 938.27 * 10^6;                                  % Mass of proton [eV]
 % Spacial grid
 a = 50;                     % Plasma radius in [cm]
 b = 250;                    % Expander radius in [cm]
-r = linspace(0,a,35);       % Grid inside the plasma [cm]
-R = linspace(a,b,35);       % Grin outside the plasma [cm]
+r = linspace(0,a,100);       % Grid inside the plasma [cm]
+R = linspace(a,b,100);       % Grin outside the plasma [cm]
 
 % Plasma parameters
 mp = m;                     % Ions mass [eV]
@@ -16,26 +16,27 @@ np = 3e13;                  % Ions density [cm^{-3}]
 Tp = 100;                   % Ions temperature [eV]
 
 % Gas parameters
-mg = 2 * m;                 % Gas mass [eV]
+mg = m;                 % Gas mass [eV]
 
 % Diff cross section of elastic scatering
-diffCross = 1e-16;          % Gas-Ions elastic cross section [cm^2]             
+diffCross = (1 / (4 * pi)) * 7.3e-15;          % Gas-Ions elastic cross section [cm^2]             
 
 % Wall conditions
 kappa = 5/9/diffCross/sqrt(mg * eVtoErg / c^2);
 Twall = 0.026;
-Pwall = 4.14;
+nwall = 1e14;
+Pwall = nwall * (Twall * eVtoErg);
 
 % Velocity grid size
 Nv = 300;
 
 %% Section 1 Title
-Trange = [0.6 0.61 0.62 0.63 0.64 0.65 0.66 0.67];
+Trange = [2.3 2.32 2.34 2.36 2.38 2.4];
 
 F = ComputeT0DensePlasma(1, Trange, Twall, Pwall, kappa, np, Tp, mp, mg, diffCross, a, b, Nv);
 
 % The T0 which was fuond!!!
-T0 = 0.637;
+T0 = 2.36;
 
 %% Section 2 Title
 % Description of second code block
@@ -59,4 +60,4 @@ Prr = PrrHot;
 
 n0 = ComputeN0(Prr, Pwall, 1);
 
-% n0 = 1.4479e+12!!
+% n0 = 1.2786e+12!!

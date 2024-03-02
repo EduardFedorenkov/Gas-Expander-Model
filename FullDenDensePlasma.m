@@ -7,26 +7,30 @@ m = 938.27 * 10^6;                                  % Mass of proton [eV]
 % Spacial grid
 a = 50;                     % Plasma radius in [cm]
 b = 250;                    % Expander radius in [cm]
-r = linspace(0,a,35);       % Grid inside the plasma [cm]
-R = linspace(a,b,35);       % Grin outside the plasma [cm]
+r = linspace(0,a,100);       % Grid inside the plasma [cm]
+R = linspace(a,b,100);       % Grin outside the plasma [cm]
 
 % Plasma parameters
 mp = m;                     % Ions mass [eV]
-np = 1e14;                  % Ions density [cm^{-3}]
+np = 3e13;                  % Ions density [cm^{-3}]
 Tp = 100;                   % Ions temperature [eV]
 
 % Gas parameters
 mg = 2 * m;                 % Gas mass [eV]
-n0 = 1.4479e+12;            % Gas dencity [cm^{-3}]
-T0 = 0.637;                 % Gas temperature [eV]
+% n0 = 1.2786e+12;            % Gas dencity [cm^{-3}]
+% T0 = 2.36;                 % Gas temperature [eV]
+
+n0 = 1.7802e+12;            % H2
+T0 = 1.42;                  % H2
 
 % Diff cross section of elastic scatering
-diffCross = 1e-16;          % Gas-Ions elastic cross section [cm^2]             
+diffCross = (1 / (4 * pi)) * 3.6e-15;          % Gas-Ions elastic cross section [cm^2]             
 
 % Wall conditions
 kappa = 5/9/diffCross/sqrt(mg * eVtoErg / c^2);
 Twall = 0.026;
-Pwall = 4.14;
+nwall = 1e14;
+Pwall = nwall * (Twall * eVtoErg);
 
 % Velocity grid size
 Nv = 300;
@@ -47,13 +51,8 @@ nEff = 0.5 * n0 / (5 * beta) * (3/4) * ( sqrt(pi) * erf(localCoef * beta23) - ..
 
 figure(3);
 x = r/b;
-semilogy(x,nCold,'LineWidth',2);
+plot(x,nCold,'LineWidth',2,'Color','Blue');
 hold on
-title('Gas dencity inside the plasma column');
-xlabel('r/a') ;
-ylabel('n [cm^{-3}]');
-lgd = legend;
-lgd.FontSize = 18;
 
 %% Compute n ouside the plasma
 
@@ -75,10 +74,10 @@ NOut = Prr ./((Twall * eVtoErg)^(3/2) - qrr * a / kappa .* log(R./b)).^(2/3);
 
 xout = R/b;
 figure(3);
-semilogy(xout,NOut,'LineWidth',2);
-legend('n_{out}');
-lgd1 = legend;
-lgd1.FontSize = 18;
+plot(xout,NOut,'LineWidth',2,'Color','Blue');
+title('H^+, H_2: n_p = 3 * 10^{13} см^{-3}, T_p = 100 эВ, n_0 = 1.8 * 10^{12} см^{-3}, T_0 = 1.42 эВ');
+xlabel('r/b') ;
+ylabel('n [cm^{-3}]');
 
 
 %% Compute electrons flux
@@ -92,4 +91,10 @@ for i = 1:Nv
 end
 j_out = j_out * gridStepHot^3;
 
-dif = j_in - j_out;
+dif = (j_in - j_out)/j_in;
+
+% H2 - 50.3% ионизуется
+% H2 - n0 = 1.7802e+12;
+% H2 - T0 = 1.42;
+
+% H - 50.4% ионизуется

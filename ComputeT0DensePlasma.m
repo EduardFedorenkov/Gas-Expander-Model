@@ -1,7 +1,6 @@
 function F = ComputeT0DensePlasma(n0, Trange, Twall, Pwall, kappa, np, Tp, mp, mg, diffCross, a, b, Nv)
     c = 3 * 10^10;
     eVtoErg = 1.6e-12;
-    kB = 1.38e-16;
 
     positiveIdxStart = fix(Nv/2) + 1;
 

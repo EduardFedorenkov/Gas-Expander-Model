@@ -19,7 +19,7 @@ function [DF, gridStep, Vr, Vsqr] = DFDensePlasma(np, Tp, mp, nEff, T0, mg, diff
     VelGridBoundary = eps * VT0 / VTp;                       % V < Veps domen is no need for this solution
     boundaryFactor = zeros(Nv,Nv,Nv);
 
-    UGrid = linspace(-eps,eps,Nv);
+    UGrid = linspace(-eps * 1.4,eps * 1.4,Nv);
     gridStep = (UGrid(2) - UGrid(1)) * VTp;
     y0 = ones(1,Nv);
     Uz = UGrid;

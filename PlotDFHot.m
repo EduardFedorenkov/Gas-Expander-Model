@@ -58,7 +58,7 @@ function [DF, gridStep, Vr, Vsqr] = PlotDFHot(np, Tp, mp, T0, Ncold, mg, diffCro
     Q = diffCross ./ (2 * alpha^3 * sqrt(pi) * VTp.^2) .* np;
     VelGridBoundary = eps * VT0 / max(VTp);                       % V < Veps domen is no need for this solution
 
-    UGrid = linspace(-eps,eps,Nv);
+    UGrid = linspace(-eps * 1.5,eps * 1.5,Nv);
     gridStep = (UGrid(2) - UGrid(1)) * max(VTp);
     y0 = ones(1,Nv);
     Uz = UGrid;

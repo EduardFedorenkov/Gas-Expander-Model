@@ -12,21 +12,25 @@ R = linspace(a,b,35);       % Grin outside the plasma [cm]
 
 % Plasma parameters
 mp = m;                     % Ions mass [eV]
-np = ones(size(r)) * 1e11;  % Ions density [cm^{-3}]
+np = ones(size(r)) * 3e11;  % Ions density [cm^{-3}]
 Tp = ones(size(r)) * 100;   % Ions temperature [eV]
 
 % Gas parameters
 mg = 2 * m;                 % Gas mass [eV]
-n0 = 4.1058e+12;            % Gas dencity [cm^{-3}]
-T0 = 0.466;                 % Gas temperature [eV]
+n0 = 1.0976e+12;            % Gas dencity [cm^{-3}]
+T0 = 1.125;                 % Gas temperature [eV]
+
+% T0 = 1.86;
+% n0 = 7.587e+11;
 
 % Diff cross section of elastic scatering
-diffCross = 1e-16;          % Gas-Ions elastic cross section [cm^2]             
+diffCross = (1 / (4 * pi)) * 3.6e-15;          % Gas-Ions elastic cross section [cm^2]             
 
 % Wall conditions
 kappa = 5/9/diffCross/sqrt(mg * eVtoErg / c^2);
 Twall = 0.026;
-Pwall = 4.14;
+nwall = 1e14;
+Pwall = nwall * (Twall * eVtoErg);
 
 % Velocity grid size
 Nv = 300;
@@ -50,13 +54,7 @@ x = r/b;
 semilogy(x,nCold,'LineWidth',2);
 hold on
 semilogy(x,nHot,'LineWidth',2);
-semilogy(x,nCold + nHot,'LineWidth',2);
-legend('n_{cold}','n_{hot}','n_{full}');
-title('Gas dencity inside the plasma column');
-xlabel('r/a') ;
-ylabel('n [cm^{-3}]');
-lgd = legend;
-lgd.FontSize = 18;
+semilogy(x,nCold + nHot,'LineWidth',2,'Color','Yellow');
 
 %% Compute n ouside the plasma
 
@@ -87,7 +85,10 @@ NOut = Prr ./((Twall * eVtoErg)^(3/2) - qrr * a / kappa .* log(R./b)).^(2/3);
 
 xout = R/b;
 figure(3);
-semilogy(xout,NOut,'LineWidth',2);
-legend('n_{out}');
-lgd1 = legend;
-lgd1.FontSize = 18;
+semilogy(xout, NOut,'LineWidth',2,'Color','Yellow');
+legend('концентрация "холодного" H_2','концентрация "горячего" H_2','полная концентрация H_2');
+title('H^+, H_2: n_p = 3 * 10^{11} см^{-3}, T_p = 100 эВ, n_0 = 1.1 * 10^{12} см^{-3}, T_0 = 1.125 эВ');
+xlabel('r/b') ;
+ylabel('n [cm^{-3}]');
+lgd = legend;
+lgd.FontSize = 14;
